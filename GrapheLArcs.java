@@ -2,6 +2,8 @@ package Graphe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 
 public class GrapheLArcs implements IGraphe {
@@ -17,25 +19,34 @@ public class GrapheLArcs implements IGraphe {
     }
 
     @Override
-    public void ajouterSommet(String noeud) {
-        // Pas besoin d'ajouter un sommet individuellement en utilisant une liste d'arcs
-        // car chaque arc relie un sommet source à un sommet destination
-        // donc tous les sommets impliqués dans les arcs seront automatiquement ajoutés à la liste
+    public void ajouterSommet(String noeud) { 
+    
+    if (!contientSommet(noeud)) {
+            // On ajoute un arc qui part et arrive sur le sommet pour le créer
+            arcs.add(new Arc(noeud, noeud, 0));
+        }
+       
     }
 
     @Override
     public void ajouterArc(String source, String destination, Integer valeur) {
-        Arc arc = new Arc(source, destination, valeur);
-        arcs.add(arc);
+         if (valeur < 0) {
+            throw new IllegalArgumentException("La valuation d'un arc ne peut pas être négative.");
+        }
+        if (!contientSommet(source)) {
+            ajouterSommet(source);
+        }
+        if (!contientSommet(destination)) {
+            ajouterSommet(destination);
+        }
+        arcs.add(new Arc(source, destination, valeur));
+    }
+        
     }
 
     @Override
     public void oterSommet(String noeud) {
-        // Pas besoin de retirer un sommet individuellement en utilisant une liste d'arcs
-        // car chaque arc relie un sommet source à un sommet destination
-        // donc tous les arcs impliquant le sommet seront automatiquement retirés de la liste
         arcs.removeIf(arc -> arc.getSource().equals(noeud) || arc.getDestination().equals(noeud));
-    }
 
     @Override
     public void oterArc(String source, String destination) {
@@ -44,51 +55,69 @@ public class GrapheLArcs implements IGraphe {
 
     @Override
     public List<String> getSommets() {
-        List<String> sommets = new ArrayList<>();
+        Set<String> sommets = new HashSet<>();
         for (Arc arc : arcs) {
-            if (!sommets.contains(arc.getSource())) {
-                sommets.add(arc.getSource());
-            }
-            if (!sommets.contains(arc.getDestination())) {
-                sommets.add(arc.getDestination());
-            }
+            sommets.add(arc.getSource());
+            sommets.add(arc.getDestination());
         }
-        // Ajouter un sommet factice de nom "" et de valuation 0
-        if (!sommets.contains("")) {
-            sommets.add("");
-            arcs.add(new Arc("", "", 0));
+        return new ArrayList<>(sommets);
         }
-        return sommets;
-    }
+       
+ 
 
     @Override
     public List<String> getSucc(String sommet) {
-        return null;
+        List<String> succ = new ArrayList<>();
+        for (Arc arc : arcs) {
+            if (arc.getSource().equals(sommet)) {
+                succ.add(arc.getDestination());
+            }
+        }
+        return succ;
     }
 
     @Override
-    public int getValuation(String src, String dest) {
-        return 0;
-    }
+   public int getValuation(String src, String dest) {
+        for (Arc arc : arcs) {
+            if (arc.getSource().equals(src) && arc.getDestination().equals(dest)) {
+                return arc.getValuation();
+            }
+        }
+        throw new IllegalArgumentException("L'arc (" + src + ", " + dest + ") n'existe pas.");
+        }
 
-    @Override
-    public boolean contientSommet(String sommet) {
+   public boolean contientSommet(String sommet) {
+        for (Arc arc : arcs) {
+            if (arc.getSource().equals(sommet) || arc.getDestination().equals(sommet)) {
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public boolean contientArc(String src, String dest) {
+        for (Arc arc : arcs) {
+            if (arc.getSource().equals(src) && arc.getDestination().equals(dest)) {
+                return true;
+            }
+        }
         return false;
     }
 
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (Arc arc : arcs) {
-            sb.append(String.format("%s-%s(%d), ", arc.getSource(), arc.getDestination(), arc.getValuation()));
-        }
-        return sb.toString();
+   @Override
+public String toString() {
+    StringBuilder sb = new StringBuilder();
+    for (Arc arc : arcs) {
+        sb.append(String.format("%s-%s(%d), ", arc.getSource(), arc.getDestination(), arc.getValuation()));
     }
+    if (sb.length() > 0) {
+        sb.deleteCharAt(sb.length() - 1); // supprime la dernière virgule
+        sb.deleteCharAt(sb.length() - 1); // supprime l'espace en fin de chaîne
+    }
+    return sb.toString();
+    }
+
 
 }
