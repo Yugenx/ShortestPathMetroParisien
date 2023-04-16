@@ -31,7 +31,6 @@ public class GrapheLAdj extends Graphe {
 	}
 
 	
-	//A finir
 	@Override
 	public List<String> getSucc(String sommet) {
 		assert(this.contientSommet(sommet));
@@ -45,7 +44,6 @@ public class GrapheLAdj extends Graphe {
 
 	@Override
 	public int getValuation(String src, String dest) {
-		// TODO Auto-generated method stub
 		if(this.contientArc(src, dest)) {
 			List<Arc> l = this.ladj.get(src);
 			for (int i = 0; i < l.size(); ++i) {
@@ -60,13 +58,11 @@ public class GrapheLAdj extends Graphe {
 
 	@Override
 	public boolean contientSommet(String sommet) {
-		// TODO Auto-generated method stub
 		return this.ladj.containsKey(sommet);
 	}
 
 	@Override
 	public boolean contientArc(String src, String dest) {
-		// TODO Auto-generated method stub
 		if (this.contientSommet(dest)) {
 			for (String s : this.getSucc(src)) {
 				if (s.equals(dest))
@@ -78,16 +74,13 @@ public class GrapheLAdj extends Graphe {
 
 	@Override
 	public void ajouterSommet(String noeud) {
-		// TODO Auto-generated method stub
-        if (!this.contientSommet(noeud)) {
-            ladj.put(noeud, new ArrayList<Arc>());
-        }	
+		if (!this.contientSommet(noeud)) {
+		    ladj.put(noeud, new ArrayList<Arc>());
+		}	
 	}
 
 	@Override
-	//Faire l'exception
 	public void ajouterArc(String source, String destination, Integer valeur) {
-		// TODO Auto-generated method stub
 		
 		//Tester si la destination existe deja
 		this.ajouterSommet(destination);
