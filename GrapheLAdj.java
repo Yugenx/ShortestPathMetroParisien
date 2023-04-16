@@ -1,4 +1,4 @@
-package saeGraphe;
+package Graphe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
