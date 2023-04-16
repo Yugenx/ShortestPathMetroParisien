@@ -1,4 +1,4 @@
-package saeGraphe;
+
 
 public class Arc {
 	private String source;
@@ -6,7 +6,7 @@ public class Arc {
 	private int valuation;
 	
 	public Arc(String source, String destination, int valuation) {
-		assert (valuation > 0 && source != null && destination != null);
+		assert (valuation >= 0 && source != null && destination != null);
 		this.source = source;
 		this.destination = destination;
 		this.valuation = valuation;
