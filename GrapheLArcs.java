@@ -94,15 +94,16 @@ public class GrapheLArcs implements IGraphe {
         return false;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (Arc arc : arcs) {
-            sb.append(String.format("%s->%s(%d), ", arc.getSource(), arc.getDestination(), arc.getValuation()));
-        }
-        if (sb.length() > 0) {
-            sb.deleteCharAt(sb.length() - 1); //
-        }
-
+   @Override
+public String toString() {
+    StringBuilder sb = new StringBuilder();
+    for (Arc arc : arcs) {
+        sb.append(String.format("%s->%s(%d), ", arc.getSource(), arc.getDestination(), arc.getValuation()));
     }
-
+    if (sb.length() > 0) {
+        sb.deleteCharAt(sb.length() - 1); //
+    }
+    return sb.toString();
+    }
+  }    
+}
