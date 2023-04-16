@@ -1,11 +1,12 @@
 package Graphe;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GrapheLAdj extends Graphe {
+public class GrapheLAdj extends Graphe{
 
 	private Map<String, List<Arc>> ladj;
 	
@@ -22,7 +23,6 @@ public class GrapheLAdj extends Graphe {
 
 	@Override
 	public List<String> getSommets() {
-		// TODO Auto-generated method stub
 		List<String> l = new ArrayList<String>();
 		for(String s : this.ladj.keySet()) {
 			l.add(s);
@@ -31,9 +31,11 @@ public class GrapheLAdj extends Graphe {
 	}
 
 	
+
 	@Override
 	public List<String> getSucc(String sommet) {
-		assert(this.contientSommet(sommet));
+		if (!this.contientSommet(sommet))
+			throw new IllegalArgumentException("Le sommet doit exister");
 		List<String> l  =  new ArrayList<String>();
 		for (Arc arc : this.ladj.get(sommet)) {
 			l.add(arc.getDestination());
@@ -63,7 +65,7 @@ public class GrapheLAdj extends Graphe {
 
 	@Override
 	public boolean contientArc(String src, String dest) {
-		if (this.contientSommet(dest)) {
+		if (this.contientSommet(dest) && this.contientSommet(src)) {
 			for (String s : this.getSucc(src)) {
 				if (s.equals(dest))
 					return true;
@@ -81,6 +83,10 @@ public class GrapheLAdj extends Graphe {
 
 	@Override
 	public void ajouterArc(String source, String destination, Integer valeur) {
+		if(valeur < 0)
+			throw new IllegalArgumentException("La valuation doit être positive");
+		if(this.contientArc(source, destination))
+			throw new IllegalArgumentException("L'arc existe déjà");
 		
 		//Tester si la destination existe deja
 		this.ajouterSommet(destination);
@@ -96,15 +102,16 @@ public class GrapheLAdj extends Graphe {
 
 	@Override
 	public void oterSommet(String noeud) {
-		// TODO Auto-generated method stub
+		if (!this.contientSommet(noeud))
+			throw new IllegalArgumentException("Le sommet n'existe pas");
 		this.ladj.remove(noeud);
 		
 	}
 
 	@Override
-	//Ne marche peut être pas
-	//Mettre une exception si l'arc n'existe pas
 	public void oterArc(String source, String destination) {
+		if(!this.contientArc(source, destination))
+			throw new IllegalArgumentException("L'arc n'existe pas");
 		List<Arc> l = this.ladj.get(source);
 		for (int i = 0; i < l.size(); ++i) {
 			if (l.get(i).getDestination() == destination) {
