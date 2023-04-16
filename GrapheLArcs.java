@@ -1,4 +1,4 @@
-package graphe;
+package Graphe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,23 +34,23 @@ public class GrapheLArcs implements IGraphe {
         // Pas besoin de retirer un sommet individuellement en utilisant une liste d'arcs
         // car chaque arc relie un sommet source à un sommet destination
         // donc tous les arcs impliquant le sommet seront automatiquement retirés de la liste
-        arcs.removeIf(arc -> arc.source.equals(noeud) || arc.destination.equals(noeud));
+        arcs.removeIf(arc -> arc.getSource().equals(noeud) || arc.getDestination().equals(noeud));
     }
 
     @Override
     public void oterArc(String source, String destination) {
-        arcs.removeIf(arc -> arc.getSource().equals(source) && arc.destination.equals(destination));
+        arcs.removeIf(arc -> arc.getSource().equals(source) && arc.getDestination().equals(destination));
     }
 
     @Override
     public List<String> getSommets() {
         List<String> sommets = new ArrayList<>();
         for (Arc arc : arcs) {
-            if (!sommets.contains(arc.source)) {
-                sommets.add(arc.source);
+            if (!sommets.contains(arc.getSource())) {
+                sommets.add(arc.getSource());
             }
-            if (!sommets.contains(arc.destination)) {
-                sommets.add(arc.destination);
+            if (!sommets.contains(arc.getDestination())) {
+                sommets.add(arc.getDestination());
             }
         }
         // Ajouter un sommet factice de nom "" et de valuation 0
@@ -86,7 +86,7 @@ public class GrapheLArcs implements IGraphe {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (Arc arc : arcs) {
-            sb.append(String.format("%s-%s(%d), ", arc.source, arc.destination, arc.valuation));
+            sb.append(String.format("%s-%s(%d), ", arc.getSource(), arc.getDestination(), arc.getValuation()));
         }
         return sb.toString();
     }
