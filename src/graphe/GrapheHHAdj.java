@@ -1,4 +1,4 @@
-package saeGraphe.graphe;
+package Graphe;
 
 import java.util.*;
 
