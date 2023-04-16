@@ -7,8 +7,9 @@ Dans le cadre de notre dernière SAE en développement orienté objets, nous dev
 - Yasmine Benali
 - Alexandre Carounanithi
 
-#01: Les différentes classes représentant un Graphe et implémentant l'interface IGraphe :
--Les classes à réaliser ont été tiré au sort pour chacun d'entre nous-
+# 01: Les différentes classes représentant un Graphe et implémentant l'interface IGraphe :
 
-1) Représentation en Liste d'arcs : GrapheLArcs --> Yasmine Benali :
--Cette classe fournit des méthodes pour ajouter/supprimer des sommets et des arcs, obtenir les sommets et les successeurs d'un sommet, vérifier si un sommet ou un arc existe dans le graphe et récupérer la valuation d'un arc. Elle dispose également d'une méthode toString() pour afficher une représentation textuelle du graphe.
+- les classes à réaliser ont été tiré au sort pour chacun d'entre nous.
+
+1) Représentation en Liste d'arcs : __GrapheLArcs__ --> __Yasmine Benali__ :
+- Cette classe fournit des méthodes pour __ajouter/supprimer__ des sommets et des arcs, __obtenir__ les sommets et les successeurs d'un sommet, __vérifier__ si un sommet ou un arc existe dans le graphe et __récupérer la valuation__ d'un arc. Elle dispose également d'une méthode __toString()__ pour afficher une représentation textuelle du graphe.
