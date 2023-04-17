@@ -20,22 +20,20 @@ public class GrapheLArcs implements IGraphe {
         }
     }
 
-    @Override
-    public void ajouterArc(String source, String destination, Integer valeur) {
-        if (valeur == null || valeur < 0) {
-            throw new IllegalArgumentException("La valuation doit être positive.");
-        }
-        if (!contientSommet(source)) {
-            ajouterSommet(source);
-        }
-        if (!contientSommet(destination)) {
-            ajouterSommet(destination);
-        }
-        if (contientArc(source, destination)) {
-            throw new IllegalArgumentException("L'arc (" + source + ", " + destination + ") existe déjà.");
-        }
-        arcs.add(new Arc(source, destination, valeur));
-    }
+   @Override
+	public void ajouterArc(String source, String destination, Integer valeur) {
+		if(valeur < 0)
+			throw new IllegalArgumentException("La valuation doit être positive");
+		if(this.contientArc(source, destination))
+			throw new IllegalArgumentException("L'arc existe déjà");
+		
+		this.ajouterSommet(destination);
+			 
+		this.ajouterSommet(source);
+		
+		Arc a = new Arc(source, destination, valeur);
+		this.ladj.get(source).add(a);
+        
     @Override
     public void oterSommet(String noeud) {
         arcs.removeIf(arc -> arc.getSource().equals(noeud) || arc.getDestination().equals(noeud));
