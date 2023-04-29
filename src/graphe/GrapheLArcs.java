@@ -1,9 +1,12 @@
 package graphe;
 
+
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Collections;
 
 public class GrapheLArcs implements IGraphe {
 
@@ -20,22 +23,25 @@ public class GrapheLArcs implements IGraphe {
         }
     }
 
+
     @Override
     public void ajouterArc(String source, String destination, Integer valeur) {
-        if (valeur == null || valeur < 0) {
-            throw new IllegalArgumentException("La valuation doit être positive.");
+        if (valeur < 0) {
+            throw new IllegalArgumentException("Valuation négative.");
         }
-        if (!contientSommet(source)) {
-            ajouterSommet(source);
+        if (!this.contientSommet(source)) {
+            this.ajouterSommet(source);
         }
-        if (!contientSommet(destination)) {
-            ajouterSommet(destination);
+        if (!this.contientSommet(destination)) {
+            this.ajouterSommet(destination);
         }
-        if (contientArc(source, destination)) {
-            throw new IllegalArgumentException("L'arc (" + source + ", " + destination + ") existe déjà.");
+        if (this.contientArc(source, destination)) {
+            throw new IllegalArgumentException("Arc déjà présent.");
         }
-        arcs.add(new Arc(source, destination, valeur));
+        this.arcs.add(new Arc(source, destination, valeur));
     }
+
+
     @Override
     public void oterSommet(String noeud) {
         arcs.removeIf(arc -> arc.getSource().equals(noeud) || arc.getDestination().equals(noeud));
@@ -50,17 +56,20 @@ public class GrapheLArcs implements IGraphe {
     public List<String> getSommets() {
         Set<String> sommets = new HashSet<>();
         for (Arc arc : arcs) {
-            sommets.add(arc.getSource());
-            sommets.add(arc.getDestination());
+            if (!arc.getSource().equals(arc.getDestination())) {
+                sommets.add(arc.getSource());
+                sommets.add(arc.getDestination());
+            }
         }
         return new ArrayList<>(sommets);
     }
+
 
     @Override
     public List<String> getSucc(String sommet) {
         List<String> succ = new ArrayList<>();
         for (Arc arc : arcs) {
-            if (arc.getSource().equals(sommet)) {
+            if (arc.getSource().equals(sommet) && !arc.getDestination().equals(sommet)) {
                 succ.add(arc.getDestination());
             }
         }
@@ -74,7 +83,7 @@ public class GrapheLArcs implements IGraphe {
                 return arc.getValuation();
             }
         }
-        return -1; // Renvoie -1 si l'arc n'existe pas.
+        throw new IllegalArgumentException("L'arc (" + src + ", " + dest + ") n'existe pas.");
     }
 
     public boolean contientSommet(String sommet) {
@@ -98,22 +107,24 @@ public class GrapheLArcs implements IGraphe {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (Arc arc : arcs) {
-            if (arc.getSource().equals(arc.getDestination())) {
-                continue; // Ignore les boucles (arcs ayant la même source et destination)
+        List<String> sommetsTries = new ArrayList<>(getSommets());
+        Collections.sort(sommetsTries);
+
+        List<String> descriptionsArcs = new ArrayList<>();
+
+        for (String sommet : sommetsTries) {
+            List<String> successeurs = getSucc(sommet);
+
+            if (successeurs.isEmpty()) {
+                descriptionsArcs.add(sommet + ":");
+            } else {
+                Collections.sort(successeurs);
+
+                for (String successeur : successeurs) {
+                    int poids = getValuation(sommet, successeur);
+                    descriptionsArcs.add(sommet + "-" + successeur + "(" + poids + ")");
+                }
             }
-            sb.append(String.format("%s->%s(%d), ", arc.getSource(), arc.getDestination(), arc.getValuation()));
         }
-        if (sb.length() > 0) {
-            sb.setLength(sb.length() - 2); // Supprime les deux derniers caractères (', ')
-        }
-        return sb.toString();
+        return String.join(", ", descriptionsArcs);
     }
-}
-
-  
-  
-
-
-
