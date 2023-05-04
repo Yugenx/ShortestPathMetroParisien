@@ -1,14 +1,4 @@
-package graphe;
-
-
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Collections;
-
-public class GrapheLArcs implements IGraphe {
+{
 
     private List<Arc> arcs;
 
@@ -49,6 +39,8 @@ public class GrapheLArcs implements IGraphe {
 
     @Override
     public void oterArc(String source, String destination) {
+		if(!this.contientArc(source, destination)) 
+			throw new IllegalArgumentException("L'arc n'existe pas");
         arcs.removeIf(arc -> arc.getSource().equals(source) && arc.getDestination().equals(destination));
     }
 
@@ -56,10 +48,10 @@ public class GrapheLArcs implements IGraphe {
     public List<String> getSommets() {
         Set<String> sommets = new HashSet<>();
         for (Arc arc : arcs) {
-            if (!arc.getSource().equals(arc.getDestination())) {
-                sommets.add(arc.getSource());
-                sommets.add(arc.getDestination());
-            }
+        
+            sommets.add(arc.getSource());
+            sommets.add(arc.getDestination());
+       
         }
         return new ArrayList<>(sommets);
     }
@@ -105,26 +97,5 @@ public class GrapheLArcs implements IGraphe {
         return false;
     }
 
-    @Override
-    public String toString() {
-        List<String> sommetsTries = new ArrayList<>(getSommets());
-        Collections.sort(sommetsTries);
-
-        List<String> descriptionsArcs = new ArrayList<>();
-
-        for (String sommet : sommetsTries) {
-            List<String> successeurs = getSucc(sommet);
-
-            if (successeurs.isEmpty()) {
-                descriptionsArcs.add(sommet + ":");
-            } else {
-                Collections.sort(successeurs);
-
-                for (String successeur : successeurs) {
-                    int poids = getValuation(sommet, successeur);
-                    descriptionsArcs.add(sommet + "-" + successeur + "(" + poids + ")");
-                }
-            }
-        }
-        return String.join(", ", descriptionsArcs);
-    }
+    
+}
