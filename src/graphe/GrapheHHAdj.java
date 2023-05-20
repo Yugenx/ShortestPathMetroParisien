@@ -1,8 +1,8 @@
-package Graphe;
+package graphes;
 
 import java.util.*;
 
-public class GrapheHHAdj implements IGraphe {
+public class GrapheHHAdj extends Graphe {
 
 
 
@@ -28,6 +28,8 @@ public class GrapheHHAdj implements IGraphe {
 
         @Override
         public List<String> getSucc(String sommet) {
+    		if (!this.contientSommet(sommet))
+    			throw new IllegalArgumentException("Le sommet doit exister");
             return new ArrayList<>(hhadj.get(sommet).keySet());
         }
 
@@ -59,9 +61,10 @@ public class GrapheHHAdj implements IGraphe {
         @Override
         public void ajouterArc(String src, String dest, Integer val) {
 
-            if (contientArc(src, dest)|| val < 0) {
-            //Execption
-            }
+    		if(val < 0)
+    			throw new IllegalArgumentException("La valuation doit être positive");
+    		if(this.contientArc(src, dest))
+    			throw new IllegalArgumentException("L'arc existe déjà");
             if (!hhadj.containsKey(src)){
                 hhadj.put(src, new HashMap<>());
             }
@@ -86,31 +89,13 @@ public class GrapheHHAdj implements IGraphe {
         @Override
 
         public void oterArc(String src, String dest) {
-            if(!contientArc(src, dest)){
-                //Exception
-            }
+    		if(!this.contientArc(src, dest
+    				)) 
+    			throw new IllegalArgumentException("L'arc n'existe pas");
             hhadj.get(src).remove(dest);
         }
 
-        public String toString(){
-            StringBuilder s = new StringBuilder();
-            TreeSet<String> tree = new TreeSet<>();
-            for (String sommet : this.getSommets()){
-                if (hhadj.get(sommet).isEmpty()){
-                    tree.add(sommet + ":, ");
-                }
-                else {
-                    for (Map.Entry<String, Integer> entry : hhadj.get(sommet).entrySet()){
-                        tree.add(sommet + "-" + entry.getKey() + "(" + entry.getValue() + "), ");
-                    }
-                }
-            }
-            for (String string : tree){
-                s.append(string);
-            }
-            String ts = String.valueOf(s);
-            return ts;
-        }
+        
 
 
     }
