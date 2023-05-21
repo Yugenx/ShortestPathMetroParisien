@@ -1,6 +1,9 @@
 # ShortestPathMetroParisien :
 
-Dans le cadre de notre dernière SAE du semestre en Développement Orienté Objets, nous devions implémenter en Java différentes représentations de graphes orientés et valués. Notre but était d'appliquer l'algorithme de Dijkstra sur ces graphes afin de trouver le chemin le plus court entre deux points donnés qui sont dans notre cas, deux stations de métro. Ainsi, nous devions comparer les performances de ces différentes représentations.
+Dans le cadre de notre dernière SAE du semestre en Développement Orienté Objets, nous devions implémenter en Java différentes représentations de graphes orientés et valués. 
+
+Notre but était d'appliquer l'algorithme de Dijkstra sur ces graphes afin de trouver le chemin le plus court entre deux points donnés, qui sont dans notre cas, deux stations de métro. 
+Ainsi, nous devions comparer les performances de ces différentes représentations.
 
 # Notre équipe (Groupe 107) :
 
