@@ -27,7 +27,7 @@ Globalement, tous les tests passent correctement pour les 3 types de graphes jus
   
   - Barabasi-Albert : l'algorithme de Dijkstra fonctionne correctement notamment pour les réprésentations LArcs et LAdj (Barabasi 102-1 à 10000002-1), sauf pour certains définis dans performances.pdf qui ne passent pas (MAdj et HHAdj).
  
-  - Dorogovtsev Mendes : tous les niveaux passent (Dorogovtsev Mendes 100-1 à 100000-1) sauf pour le graphe 1000000- 1 et 1000-1 (pour MAdj et HHAdj).
+  - Dorogovtsev Mendes : tous les niveaux passent (Dorogovtsev Mendes 100-1 à 100000-1) sauf pour le graphe 1000000-1 et 1000-1 (pour MAdj et HHAdj).
 
 
 
